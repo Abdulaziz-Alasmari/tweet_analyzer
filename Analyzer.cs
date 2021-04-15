@@ -14,7 +14,7 @@ namespace Project
             {
                 if (
                     (i == 0 && tweet[i] == '@') ||
-                    (Char.IsWhiteSpace(tweet[i]) && tweet[i + 1] == '@')
+                    (tweet[i] == '@' && Char.IsWhiteSpace(tweet[i - 1]))
                     )
                 {
                     string username = "";
@@ -24,7 +24,7 @@ namespace Project
                     }
                     else
                     {
-                        username += tweet[++i];
+                        username += tweet[i];
                     }
 
                     int maxLen = 15;
@@ -37,12 +37,13 @@ namespace Project
                         --maxLen;
                     }
 
-                    mentions.Add(username);
+                    if (username.Length > 1)
+                        mentions.Add(username);
                 }
 
                 if (
                     (i == 0 && tweet[i] == '#') ||
-                    (Char.IsWhiteSpace(tweet[i]) && tweet[i + 1] == '#')
+                    (tweet[i] == '#' && Char.IsWhiteSpace(tweet[i - 1]))
                     )
                 {
                     string hashtag = "";
@@ -52,7 +53,7 @@ namespace Project
                     }
                     else
                     {
-                        hashtag += tweet[++i];
+                        hashtag += tweet[i];
                     }
 
                     while (
@@ -64,7 +65,8 @@ namespace Project
 
                     }
 
-                    hashtags.Add(hashtag);
+                    if (hashtag.Length > 1)
+                        hashtags.Add(hashtag);
                 }
 
                 ++i;
@@ -86,7 +88,7 @@ namespace Project
         static void Main(string[] args)
         {
             // analyzeTweet("#المنيع_في_ليوان_المديفر @may___od368_ Replying to #المنيع_وان_المديفر@___mayod368 يلا اهمشي@mayod368في النهاية تعاد @_mayo_d368_");
-            analyzeTweet("#BREAKING: Custodian of the Two Holy Mosques King Salman receives a phone call from the Turkish president Recep Tayyip Erdogan, exchange #Ramadan greeting");
+            analyzeTweet("#BREAKING: Custodian of the Two Holy Mosques King Salman receives a phone call from the Turkish president Recep Tayyip Erdogan, exchange #Ramadan greeting @ #");
 
         }
 
